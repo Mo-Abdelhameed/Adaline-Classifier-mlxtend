@@ -7,6 +7,7 @@ from preprocessing.preprocess import (
     impute_categorical,
     impute_numeric,
     normalize,
+    reduce_dimensions
 )
 from schema.data_schema import ClassificationSchema
 
@@ -39,8 +40,9 @@ def run_pipeline(
             imputation_dict[f] = value
 
         input_data = normalize(input_data, schema)
-
         input_data = encode(input_data, schema)
+        input_data = reduce_dimensions(input_data, training=True)
+
         dump(imputation_dict, imputation_path)
     else:
         imputation_dict = load(imputation_path)
@@ -51,5 +53,7 @@ def run_pipeline(
             )
         input_data = normalize(input_data, schema, scaler="predict")
         input_data = encode(input_data, schema, encoder="predict")
+        input_data = reduce_dimensions(input_data, training=False)
+
 
     return input_data

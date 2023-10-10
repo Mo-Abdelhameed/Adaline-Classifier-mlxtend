@@ -31,6 +31,8 @@ SCALER_FILE = os.path.join(MODEL_ARTIFACTS_PATH, "scaler.joblib")
 ENCODER_FILE = os.path.join(MODEL_ARTIFACTS_PATH, "encoder.joblib")
 # Path to the target encoder object used during training
 TARGET_ENCODER_FILE = os.path.join(MODEL_ARTIFACTS_PATH, "target_encoder.joblib")
+# Path to PCA preprocessor.
+PCA_FILE = os.path.join(MODEL_ARTIFACTS_PATH, "pca.joblib")
 # Path to saved schema in artifacts directory
 SAVED_SCHEMA_DIR_PATH = os.path.join(MODEL_ARTIFACTS_PATH, "schema")
 # Name of the preprocessing pipeline file

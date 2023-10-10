@@ -9,6 +9,7 @@ from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from config import paths
 from logger import get_logger
 from schema.data_schema import ClassificationSchema
+from sklearn.decomposition import PCA
 
 logger = get_logger(task_name="preprocess")
 
@@ -165,3 +166,23 @@ def encode_target(target: pd.Series, save_path: str = paths.TARGET_ENCODER_FILE)
     results = encoder.fit_transform(target)
     dump(encoder, save_path)
     return results, encoder
+
+
+def reduce_dimensions(input: pd.DataFrame, training:bool = True) -> pd.DataFrame:
+    """
+    Performs dimensionality reduction on the give input.
+    Args:
+        input (pd.DataFrame): The input data.
+        training (bool): Determines the phase (training or testing).
+
+    Returns:
+        pd.DataFrame: The data after reducing the dimension.
+    """
+    if training:
+        pca = PCA(n_components=0.95)
+        result = pca.fit_transform(input)
+        dump(pca, paths.PCA_FILE)
+    else:
+        pca = load(paths.PCA_FILE)
+        result = pca.transform(input)
+    return pd.DataFrame(result)
